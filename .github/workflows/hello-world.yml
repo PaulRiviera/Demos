@@ -40,3 +40,13 @@ jobs:
       - name: Run Hello World
         run: |
           Write-Output "Hello ${{ secrets.TEST_SECRET }}"
+          
+  build-final:
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run Hello Charly
+        run: |
+          Write-Output "Hello Charly!"
