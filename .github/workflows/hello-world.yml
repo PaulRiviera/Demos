@@ -29,3 +29,14 @@ jobs:
         with:
           name: "Greeting File"
           path: greeting.txt
+          
+  build-two:
+    runs-on: windows-latest
+    needs: [build]
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run Hello World
+        run: |
+          Write-Outline "Hello World"
