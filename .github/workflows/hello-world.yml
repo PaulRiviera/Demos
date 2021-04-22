@@ -39,4 +39,4 @@ jobs:
       
       - name: Run Hello World
         run: |
-          Write-Outline "Hello World"
+          Write-Output "Hello World"
