@@ -22,10 +22,31 @@ jobs:
         run: |
           touch greeting.txt
           cat >> greeting.txt <<EOL
-          Hello World
+          Hello ${{ secrets.TEST_SECRET }}
           EOL
       
       - uses: actions/upload-artifact@v2
         with:
           name: "Greeting File"
           path: greeting.txt
+          
+  build-two:
+    runs-on: windows-latest
+    needs: [build]
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run Hello World
+        run: |
+          Write-Output "Hello ${{ secrets.TEST_SECRET }}"
+          
+  build-final:
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run Hello Charly
+        run: |
+          Write-Output "Hello Charly!"
