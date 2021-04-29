@@ -1,0 +1,3 @@
+*.local.csv
+data.json
+.DS_Store
