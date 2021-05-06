@@ -1,0 +1,8 @@
+
+# CheckStatus
+- whats the status of order
+- can you tell me the status of my order
+- whats the order status
+
+> it will flag it as 'orderid' entity.
+$ orderid : /[A-Za-z]{2}[0-9]{7}/
