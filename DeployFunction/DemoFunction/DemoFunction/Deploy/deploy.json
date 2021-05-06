@@ -30,7 +30,7 @@
     },
     "appInsightsLocation": {
       "type": "string",
-      "defaultValue": "aidemo20210506",
+      "defaultValue": "eastus2",
       "metadata": {
         "description": "Location for Application Insights"
       }
