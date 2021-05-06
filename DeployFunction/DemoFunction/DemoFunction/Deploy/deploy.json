@@ -4,7 +4,7 @@
   "parameters": {
     "appName": {
       "type": "string",
-      "defaultValue": "[concat('fnapp', uniqueString(resourceGroup().id))]",
+      "defaultValue": "funcappdemo20210506",
       "metadata": {
         "description": "The name of the function app that you wish to create."
       }
@@ -30,13 +30,14 @@
     },
     "appInsightsLocation": {
       "type": "string",
+      "defaultValue": "aidemo20210506",
       "metadata": {
         "description": "Location for Application Insights"
       }
     },
     "runtime": {
       "type": "string",
-      "defaultValue": "node",
+      "defaultValue": "dotnet",
       "allowedValues": [
         "node",
         "dotnet",
