@@ -1,0 +1,35 @@
+name: Setup Basic AKS
+
+on:
+  workflow_dispatch:
+    inputs:
+      demo_name:
+        description: 'Demo Abbreviation'
+        required: true
+        default: 'msft'
+      app_region:
+        description: 'Targeted Azure Region'
+        required: false
+        default: 'eastus2'
+      environment:
+        description: 'Abbreviation of the Environment'
+        required: false
+        default: 'demo'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+  provision-cluster:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Azure Prod Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZ_MS }}
