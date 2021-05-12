@@ -1,0 +1,30 @@
+
+> LUIS application information
+> !# @app.versionId = 0.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 3.2.0
+
+
+> # Intent definitions
+
+# CheckStatus
+- whats the status of order
+- can you tell me the status of my order
+- whats the order status
+
+
+> # Entity definitions
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities
+
+@ regex orderid = /[A-Za-z]{2}[0-9]{7}/
+
