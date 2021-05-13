@@ -15,8 +15,8 @@ on:
         default: 'Demos'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  setup-flux:
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
