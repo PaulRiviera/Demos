@@ -51,12 +51,14 @@ jobs:
             --from-literal=address=${{ secrets.MS_TEAMS_URL }}
       
       - name: Install Flux
+        shell: bash
         run: |
-          curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
+          curl -s https://fluxcd.io/install.sh | sudo bash
           kubectl cluster-info
           flux check --pre
           
       - name: Bootstrap GitOps
+        shell: bash
         run: |
           flux bootstrap github \
             --owner=${{ github.actor }} \
