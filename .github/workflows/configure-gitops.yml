@@ -1,0 +1,70 @@
+name: Configure GitOps for AKS
+
+on:
+  workflow_dispatch:
+    inputs:
+      resource_group_name:
+        description: 'Name of Resource Group containing the AKS Instance'
+        required: true
+      cluster_name:
+        description: 'Name of Azure Kubernetes Service Instance'
+        required: true
+      gitops_repo:
+        description: 'GitOps Repository with the cluster manifests'
+        required: true
+        default: 'Demos'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZ_MS }}
+
+      - name: Azure Kubernetes set context
+        uses: Azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZ_MS }}
+          resource-group: ${{ github.event.inputs.resource_group_name }}
+          cluster-name: ${{ github.event.inputs.cluster_name }}
+          
+      - name: Create Flux Namespace
+        run: |
+          touch deploy-flux-ns.yaml
+          cat >> deploy-flux-ns.yaml <<EOL
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: flux-system
+          EOL
+          kubectl apply -f deploy-flux-ns.yaml
+          
+      - name: Create MS Teams Webhook
+        run: |
+          kubectl -n flux-system delete secret teams-url --ignore-not-found
+          kubectl -n flux-system create secret generic teams-url \
+            --from-literal=address=${{ secrets.MS_TEAMS_URL }}
+      
+      - name: Install Flux
+        run: |
+          curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
+          kubectl cluster-info
+          flux check --pre
+          
+      - name: Bootstrap GitOps
+        run: |
+          flux bootstrap github \
+            --owner=${{ github.actor }} \
+            --repository=$TARGET_REPO \
+            --branch=main \
+            --path=./clusters/fluxdemo \
+            --personal
+        env:
+          TARGET_REPO: ${{ github.event.inputs.gitops_repo }}
+          GITHUB_TOKEN: ${{ secrets.FLUX_PAT }}
+          GITHUB_USER: ${{ github.actor }}
