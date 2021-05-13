@@ -1,43 +1,43 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .Values.namespace }}
+  name: ping-demo
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-svc
-  namespace: {{ .Values.namespace }}
+  name: ping-svc
+  namespace: ping-demo
 spec:
   selector:
-    app: {{ .Release.Name }}-api
+    app: ping-api
   ports:
     - protocol: TCP
-      port: {{ .Values.service.port }}
+      port: 8080
       targetPort: 80
-  type: {{ .Values.service.type }}
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.namespace }}
-  name: {{ .Release.Name }}-api
+  namespace: ping-demo
+  name: ping-api
   labels:
-    env: {{ .Values.environment }}
-    app: {{ .Release.Name }}
+    env: demo
+    app: ping-api
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: 2
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-api
+      app: ping-api
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-api
+        app: ping-api
     spec:
       containers:
-      - name: {{ .Release.Name }}
-        image: {{ .Values.image }}
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
+      - name: ping
+        image: acrgitops202105demo.azurecr.io/ping:0
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
