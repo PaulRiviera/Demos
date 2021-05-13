@@ -13,7 +13,7 @@ spec:
     app: ping-api
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
       targetPort: 80
   type: LoadBalancer
 ---
@@ -36,7 +36,7 @@ spec:
         app: ping-api
     spec:
       containers:
-      - name: ping
+      - name: ping-api
         image: acrgitops202105demo.azurecr.io/ping:0
         imagePullPolicy: Always
         ports:
